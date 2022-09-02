@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>SlitBoard</title>
+</head>
+
+<body>
+    <i class="fa-solid fa-square"></i>
+    <i class="fa-solid fa-grip-lines-vertical"></i>
+    <canvas> </canvas>
+    <style>
+        body {
+            margin: 0px;
+        }
+
+        .fa-square {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+
+        .fa-grip-lines-vertical {
+            font-size: 2rem;
+        }
+    </style>
+</body>
+<script>
+    let canvasBoard = document.querySelector("canvas");
+    let body = document.querySelector("body");
+    let squareTool = document.querySelector(".fa-square");
+    let lineTool = document.querySelector(".fa-grip-lines-vertical")
+    let cTool = "squareTool";
+    canvasBoard.height = window.innerHeight;
+    canvasBoard.width = window.innerWidth;
+    let tool = canvasBoard.getContext("2d");
+
+    // tool.fillStyle = '#36454F';
+    // tool.fillRect(0, 0, 200, 200);
+    // tool.strokeStyle = "red";
+    // tool.strokeRect(20, 20, 300, 300);
+    // tool.fillStyle = "orange";
+    // tool.fillRect(10, 10, 100, 100); 
+
+    squareTool.addEventListener("click",
+    function(){
+            cTool = "squareTool";
+    })
+    lineTool.addEventListener("click",
+    function(){
+            cTool = "lineTool";
+    })
+    let boardTop = canvasBoard.getBoundingClientRect().top;
+    let iX, iY, fX, fY;
+    body.addEventListener('mousedown',
+        function (e) {
+            iX = e.clientX;
+            iY = e.clientY - boardTop ;
+
+        })
+    body.addEventListener('mouseup',
+        function (e) {
+            fX = e.clientX;
+            fY = e.clientY;
+            let width = fX - iX;
+            let height = fY - iY;
+            if (cTool == "squareTool") {
+                tool.strokeRect(iX, iY, width, height);
+            }else if(cTool == "lineTool"){
+                tool.beginPath();
+                tool.moveTo(iX,iY);
+                tool.lineTo(fX,fY);
+                tool.stroke();
+            }
+        })
+</script>
+
+</html>
